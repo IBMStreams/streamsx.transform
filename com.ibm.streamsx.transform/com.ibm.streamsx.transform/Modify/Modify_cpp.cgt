@@ -1,0 +1,32 @@
+<% 
+# Copyright (C)2015, International Business Machines Corporation
+# and others.  All rights reserved.
+%>
+<%SPL::CodeGen::implementationPrologue($model);%>
+
+<%    
+   my $inputPort = $model->getInputPortAt(0); 
+   my $numOutputPorts = $model->getNumberOfOutputPorts();
+   my $outputPort0 = $model->getOutputPortAt(0); 
+   my $inTupleName = $inputPort->getCppTupleName();
+   my $filterParam = $model->getParameterByName("filter");
+   my $filterExpr = $filterParam ?  $filterParam->getValueAt(0)->getCppExpression() : "1";
+%>
+
+void MY_OPERATOR::process(Tuple & tuple, uint32_t port) 
+{
+   IPort0Type & <%=$inTupleName%> = static_cast<IPort0Type &>(tuple);
+   if (! (<%=$filterExpr%>) ) 
+       return;
+   
+       <%=SPL::CodeGen::getOutputTupleCppAssignments($inTupleName,$outputPort0)%>
+       submit(<%=$inTupleName%>,0);
+}
+
+void MY_OPERATOR::process(Punctuation const & punct, uint32_t port) 
+{
+   forwardWindowPunctuation(punct);
+}
+
+<%SPL::CodeGen::implementationEpilogue($model);%>
+

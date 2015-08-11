@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<!-- Copyright (C)2015, International Business Machines Corporation -->
+<!-- and others.  All rights reserved.                                -->
+<operatorModel
+  xmlns="http://www.ibm.com/xmlns/prod/streams/spl/operator" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.ibm.com/xmlns/prod/streams/spl/operator operatorModel.xsd">
+  <cppOperatorModel>
+    <context> 
+      <description docHref="doc/${nl}/doc/functor.html">This operator is similar to Functor, but modifies the input tuple instead of creating a new one.  Like Functor, it has an optionally filter.  If your input type and output type are the same, using this operator instead of Functor.  
+
+The Modify operator can be an operator within the reachability graph of a consistent region. It cannot be the start of a consistent region.
+</description>
+      <iconUri size="16">functor_16.gif</iconUri>
+      <iconUri size="32">functor_32.gif</iconUri>
+      <providesSingleThreadedContext>Always</providesSingleThreadedContext>
+      <codeTemplates>
+        <codeTemplate name="Functor">
+          <description>Basic Functor template</description>
+          <template>stream&lt;${schema}&gt; ${outputStream} = Functor(${inputStream}) {
+            param
+                filter : ${filterExpression};
+            output
+                ${outputStream} : ${outputAttribute} = ${value};
+        }</template>
+        </codeTemplate>
+      </codeTemplates>      
+    </context>  
+    <parameters>
+      <allowAny>false</allowAny>
+      <parameter>
+        <name>filter</name>
+        <description>Condition that determines which input tuples are to be operated on</description>
+        <optional>true</optional>
+        <rewriteAllowed>true</rewriteAllowed>
+        <expressionMode>Expression</expressionMode>
+        <type>boolean</type>
+        <cardinality>1</cardinality>
+      </parameter>
+    </parameters>
+    <inputPorts>
+      <inputPortSet>
+        <description>Port that ingests tuples to be manipulated</description>
+        <tupleMutationAllowed>true</tupleMutationAllowed>
+        <windowingMode>NonWindowed</windowingMode>
+        <windowPunctuationInputMode>Oblivious</windowPunctuationInputMode>
+        <cardinality>1</cardinality>
+        <optional>false</optional>
+      </inputPortSet>
+    </inputPorts>
+    <outputPorts>
+      <outputPortSet>
+        <description>Port that outputs the modified tuples.</description>
+        <expressionMode>Expression</expressionMode> 
+        <autoAssignment>false</autoAssignment>
+        <completeAssignment>false</completeAssignment>
+        <rewriteAllowed>true</rewriteAllowed>
+        <windowPunctuationOutputMode>Preserving</windowPunctuationOutputMode>
+        <tupleMutationAllowed>true</tupleMutationAllowed>
+        <cardinality>1</cardinality>
+        <optional>false</optional>
+      </outputPortSet>    
+    </outputPorts>
+  </cppOperatorModel>
+</operatorModel>
