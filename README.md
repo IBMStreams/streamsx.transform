@@ -1,2 +1,4 @@
 # streamsx.transform
-Toolkit that contains basic building block operators that efficiently transform data from one format to another
+This toolkit contains general-purpose operators that do tuple manipulation.  Currently, the only operator it contains is Modify, but operators that perform joins and aggregations fit would fit in this toolkit.
+
+General-purpose operators that perform manipulations on streams without looking at the tuples should go into streamsx.plumbing. 
