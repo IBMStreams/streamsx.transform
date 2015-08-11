@@ -1,0 +1,84 @@
+/* Copyright (C)2015, International Business Machines Corporation
+ * and others.  All rights reserved.
+ */
+
+use com.ibm.streamsx.transform::Modify;
+
+composite ThreeFunctors(input InStream; output Thrice) {
+
+    param
+        operator $Operator;
+    graph 
+        stream<InStream> Once = $Operator(InStream) {
+            output Once:
+                iter = iter+1;
+        }
+
+        stream<InStream> Twice = $Operator(Once) {
+            output Twice: iter = iter+1;
+        }
+
+        stream<InStream> Thrice = $Operator(Twice) {
+            output Thrice: iter = iter+1;
+        }
+
+}
+
+list<rstring> getStringList(int32 num, rstring string) {
+    mutable int32 i = 0;
+    mutable list<rstring> toReturn = (list<rstring>)[];
+    while (i < num) {
+        appendM(toReturn,string);
+        i++;
+    }
+    return toReturn;
+}
+
+composite Test {
+param
+    operator $Operator;
+    expression<int32> $iterations: (int32)getSubmissionTimeValue("iterations","10000000");
+    expression<int32> $listLength: (int32)getSubmissionTimeValue("listLength","100");
+    expression<rstring> $label: "none";
+    graph
+        stream<uint64 anInt, rstring astring, int32 iter, list<rstring> myList> Data = Beacon() {
+        param iterations: $iterations;  
+            output Data:
+             anInt = IterationCount(),
+                   astring = "Message number "+(rstring)IterationCount(),
+                   iter = 0,
+                   myList = getStringList($listLength,"foo");
+        }
+
+    stream<Data> Out = ThreeFunctors(Data) {
+        param Operator: $Operator;
+    }
+
+    () as checker = Custom(Out) {
+    logic state: {
+        mutable int32 numTuples = 0;
+    }
+    onTuple Out: {
+        assert(iter ==3);
+    }
+    }
+
+}
+
+composite TestFunctor {
+    graph
+
+        () as op = Test() {
+            param Operator: Functor;
+            label: "functor";
+        }
+
+}
+
+composite TestModify {
+    graph 
+        () as op = Test() {
+            param Operator: Modify;
+            label: "modify";
+        }
+}

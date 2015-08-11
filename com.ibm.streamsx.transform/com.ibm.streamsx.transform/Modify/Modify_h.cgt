@@ -1,0 +1,27 @@
+<% 
+# Copyright (C)2015, International Business Machines Corporation
+# and others.  All rights reserved.
+%>
+<%
+    my $isInConsistentRegion = $model->getContext()->getOptionalContext("ConsistentRegion");
+    if ($isInConsistentRegion && $isInConsistentRegion->isStartOfRegion()) {
+        SPL::CodeGen::exitln(SPL::Msg::OP_CANNOT_START_CR($model->getContext()->getKind()), 
+            $model->getContext()->getSourceLocation());
+    }
+%>
+<%SPL::CodeGen::headerPrologue($model);%>
+
+class MY_OPERATOR : public MY_BASE_OPERATOR 
+{
+public:
+   MY_OPERATOR() {}
+  
+   void process(Tuple & tuple, uint32_t port);
+   void process(Punctuation const & punct, uint32_t port);
+   <%if ($model->getContext()->getNumberOfStateVariables() > 0) {%>
+       void getCheckpoint(NetworkByteBuffer & opstate) { checkpointStateVariables(opstate); }
+       void restoreCheckpoint(NetworkByteBuffer & opstate) { restoreStateVariables(opstate); }
+   <%}%>
+}; 
+
+<%SPL::CodeGen::headerEpilogue($model);%>
