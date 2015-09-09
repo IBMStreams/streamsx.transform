@@ -1,4 +1,8 @@
-
+/*******************************************************************************
+* Copyright (C) 2015, International Business Machines Corporation
+* All Rights Reserved
+*******************************************************************************/
+*/
 type StringListData = uint64 tupleNum, list<rstring> potterList, list<rstring> lotrList,list<rstring> austenList;
 type ThreeClauseString = rstring hero,rstring heroine,rstring villain;
 type IntData = int64 x, int64 y, int64 z;
