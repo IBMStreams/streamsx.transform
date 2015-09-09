@@ -1,0 +1,28 @@
+
+<%
+my $label = $ARGV[0];
+my $filterExpression = $ARGV[1];
+$filterExpression=~ s/\"/\\\"/g;
+%>
+
+
+composite IntDynamic_<%=$label%> {
+graph
+    () as dyn = DynamicFilterTest() {
+        param
+            GenData: GenerateIntData;
+            filter: "<%=$filterExpression%>";
+            DataType: IntData;
+    }
+
+}
+
+composite IntBasic_<%=$label%> {
+graph
+   () as basic = BasicFilterTest() {
+        param
+            GenData: GenerateIntData;
+            DataType:IntData;
+   }
+
+}

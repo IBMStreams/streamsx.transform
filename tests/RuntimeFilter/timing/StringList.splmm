@@ -1,0 +1,30 @@
+
+<%
+my $label = $ARGV[0];
+my $filterExpression = $ARGV[1];
+
+my $escapedFilter = $filterExpression;
+$escapedFilter =~ s/"/\\\"/g;
+%>
+
+
+composite StringListDynamic_<%=$label%> {
+graph
+    () as dyn = DynamicFilterTest() {
+        param
+            GenData: GenerateStringList;
+            filter: "<%=$escapedFilter%>";
+            DataType: StringListData;
+    }
+
+}
+
+composite StringListBasic_<%=$label%> {
+graph
+   () as basic = BasicFilterTest() {
+        param
+            GenData: GenerateStringList;
+            DataType:StringListData;
+   }
+
+}
