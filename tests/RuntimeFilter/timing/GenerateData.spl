@@ -2,24 +2,19 @@
 * Copyright (C) 2015, International Business Machines Corporation
 * All Rights Reserved
 *******************************************************************************/
-*/
-type StringListData = uint64 tupleNum, list<rstring> potterList, list<rstring> lotrList,list<rstring> austenList;
+type StringListData = uint64 tupleNum, list<rstring> characterList;
 type ThreeClauseString = rstring hero,rstring heroine,rstring villain;
 type IntData = int64 x, int64 y, int64 z;
 
 composite GenerateStringList(output OutStream) {
     param
-        expression<list<rstring>> $nameList: ["Harry","Herminone","Ron","Mrs. Weasley","Sirius","Dumbledore","Lilly","Voldemort","James","Malfoy"];
-    expression<list<rstring>> $nameList2: ["Aragorn","Frodo","Gandalf","Eowyn","Merry","Fatty","Pippin","Eomer","Theoden","Faramir","Boromir"];
     expression<int32> $iterations: (int32)getSubmissionTimeValue("iterations","100000000");
     graph
         stream<StringListData> OutStream = Beacon() {
             param iterations: $iterations;
           output OutStream:
                   tupleNum=IterationCount(),
-                  potterList = $nameList,
-                      lotrList = $nameList2,
-                          austenList = ["Emma","Lizzy","Jane","Wentworth","Elinor","Fanny","Anne","Lady Susan","Catherine","Henry"];
+                          characterList = ["Emma","Lizzy","Jane","Wentworth","Elinor","Fanny","Anne","Lady Susan","Catherine","Henry"];
         }
 }
 

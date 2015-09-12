@@ -1,7 +1,7 @@
 /*******************************************************************************
 * Copyright (C) 2015, International Business Machines Corporation
 * All Rights Reserved
-*******************************************************************************/
+*******************************************************************************
 */
 namespace com.ibm.streamsx.transform;
 
@@ -21,25 +21,25 @@ stream<ToFilter> Filtered = Custom(ToFilter;ChangeFilter) {
         boolean testFilterBeforeUpdate=$testFilterBeforeUpdate;
 	}
 	onTuple ChangeFilter: {
-        rstring newfilter = $filterExpression;
+        mutable rstring _newfilter = $filterExpression;
 		if (testFilterBeforeUpdate) {
            mutable int32 err=0;
-           evalPredicate(newfilter,(ToFilter){},err);
+           evalPredicate(_newfilter,(ToFilter){},err);
            if (err == 0) {
-              currentFilter=newfilter;
+              currentFilter=_newfilter;
               if (isTraceable(Trace.info)) {
-                 appTrc(Trace.info,"Updating filter to "+newfilter);
+                 appTrc(Trace.info,"Updating filter to "+_newfilter);
               }
           }
           else {
-             appTrc(Trace.error,"Error "+(rstring)err+" on new filter "+newfilter+"; not updating");
+             appTrc(Trace.error,"Error "+(rstring)err+" on new filter "+_newfilter+"; not updating");
              }
         }
         else {
            if (isTraceable(Trace.info)) {
-              appTrc(Trace.info,"Updating filter to "+newfilter);
+              appTrc(Trace.info,"Updating filter to "+_newfilter);
            }
-           currentFilter = newfilter;
+           currentFilter = _newfilter;
         }
 	}
 	onTuple ToFilter: {

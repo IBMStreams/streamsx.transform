@@ -2,7 +2,7 @@
 * Copyright (C) 2014, International Business Machines Corporation
 * All Rights Reserved
 *******************************************************************************/
-*/
+
 <%
 my $label = $ARGV[0];
 my $filterExpression = $ARGV[1];

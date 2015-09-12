@@ -1,0 +1,51 @@
+/*
+# Licensed Materials - Property of IBM
+# Copyright IBM Corp. 2011, 2014 
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with
+# IBM Corp.
+*/
+use com.ibm.streamsx.transform::RuntimeFilter;
+
+use com.ibm.streamsx.inet.rest::*;
+
+/**
+ * Web example showing RuntimeFilter in action.
+ * Point browser to [http://127.0.0.1:8080]
+ */
+composite SimpleInject {
+	
+	graph
+
+    stream<int64 iter> Data = Beacon() {
+       param period: 1.0;
+       output Data:
+          iter = (int64)IterationCount();
+    }
+
+	stream<rstring newfilter> FilterUpdate
+	    = HTTPTupleInjection() {
+	  param
+		  port: 8080;
+      config
+	    // Ensure the operators are in a single PE to have a single web-server
+	    placement: partitionColocation("jetty8080");
+		  
+	}
+	 
+    stream<Data> Filtered = RuntimeFilter(Data;FilterUpdate) {
+       param filterExpression: newfilter;
+    }
+
+
+	() as InjectView = HTTPTupleView(Filtered) {
+		window Filtered: sliding, count(10), count(1);
+		param
+		  port: 8080;
+		config
+	    // Ensure the operators are in a single PE to have a single web-server
+	    placement: partitionColocation("jetty8080");
+		  
+	}
+
+}
