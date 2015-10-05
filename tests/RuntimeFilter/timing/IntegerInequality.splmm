@@ -1,0 +1,53 @@
+/*******************************************************************************
+* Copyright (C) 2015, International Business Machines Corporation
+* All Rights Reserved
+*******************************************************************************/
+
+use com.ibm.streamsx.transform::RuntimeFilter;
+
+composite GenerateIntTuples(output Data) {
+graph
+stream<int64 x,int64 y, int64 z> Data = Beacon() {
+param iterations: 100000000;
+initDelay: 1.0;
+output Data:
+	x = (int64)IterationCount()%10l,
+	y = (int64)IterationCount()%11l,
+	z = (int64)IterationCount()%13l;
+}
+}
+
+composite FlexibleFilterInt {
+
+graph
+stream<int64 x,int64 y, int64 z> Data = GenerateIntTuples() {
+
+}
+
+stream<rstring filterExpr> Filters = Beacon() {
+logic state: 
+	list<rstring> expressions = ["x > 10 || y > 15 || z > 2"];
+param iterations: 1;
+//period: 5.0;
+output Filters:
+	filterExpr=expressions[IterationCount()];
+}
+
+
+stream<Data> FilteredData = RuntimeFilter(Data;Filters) {
+    param filterExpression: Filters.filterExpr;
+}
+
+}
+
+composite BasicFilterInt {
+graph 
+stream<int64 x,int64 y, int64 z> Data = GenerateIntTuples() {
+
+}
+
+stream<Data> FilteredData = Filter(Data) {
+	param filter: x > 10l || y > 15l || z > 2l;
+}
+
+}

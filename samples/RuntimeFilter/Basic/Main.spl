@@ -1,0 +1,36 @@
+/*******************************************************************************
+* Copyright (C) 2015, International Business Machines Corporation
+* All Rights Reserved
+*******************************************************************************/
+*/
+
+use com.ibm.streamsx.transform::RuntimeFilter;
+composite Main {
+
+graph 
+
+// Let’s generate some data.
+   stream<int64 iter> Data = Beacon() {
+      param
+         period: 1.0;   // new tuple every second
+      output Data:
+         iter = (int64)IterationCount();
+    }
+
+    stream<rstring expr> FilterExpressions = FileSource() {
+       param file: "filterFile.txt";
+       hotFile: true;
+       format: line;
+    }
+
+    stream<Data> Filtered = RuntimeFilter(Data;FilterExpressions) {
+       param filterExpression: expr;
+       testFilterBeforeUpdate: true;
+    }
+
+    () as sink = Custom(Filtered) {
+        logic onTuple Filtered: {
+            println((rstring)Filtered);
+        }
+    }
+}

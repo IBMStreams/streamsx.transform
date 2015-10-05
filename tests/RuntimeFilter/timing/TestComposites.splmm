@@ -1,0 +1,53 @@
+/*******************************************************************************
+* Copyright (C) 2014, International Business Machines Corporation
+* All Rights Reserved
+*******************************************************************************/
+
+<%
+    my $filterExpression=$ARGV[1];
+%>
+use com.ibm.streamsx.transform::RuntimeFilter;
+
+composite DynamicFilterTest {
+    param type $DataType;
+     operator $GenData;
+    expression<rstring> $filter;
+     graph 
+
+stream<$DataType> Data = $GenData() {
+}
+
+stream<rstring filterexpression> Control = Custom() {
+    // We don't really want to do anything.
+}
+
+stream<Data> Filtered = RuntimeFilter(Data;Control) {
+param initialFilter: $filter;
+   filterExpression: Control.filterexpression;
+}
+
+/*
+() as sink = FileSink(Filtered) {
+param file: "flexible.out";
+}
+*/
+
+}
+
+composite BasicFilterTest {
+param type $DataType;
+operator $GenData;
+graph 
+
+stream<$DataType> Data = $GenData() {
+}
+
+stream<Data> Filtered = Filter(Data) {
+param filter: <%=$filterExpression%>;
+}
+ /*
+() as sink = FileSink(Filtered) {
+param file:"basic.out";
+}
+*/
+}

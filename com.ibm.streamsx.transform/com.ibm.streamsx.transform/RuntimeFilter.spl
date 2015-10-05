@@ -1,0 +1,59 @@
+/*******************************************************************************
+* Copyright (C) 2015, International Business Machines Corporation
+* All Rights Reserved
+*******************************************************************************
+*/
+namespace com.ibm.streamsx.transform;
+
+/**
+ * Filter tuples based on a expression given as an rstring
+ */
+
+public composite RuntimeFilter (input ToFilter, ChangeFilter; output Filtered) {
+param expression<rstring> $initialFilter: "";
+	   expression<rstring> $filterExpression;
+       expression <boolean> $testFilterBeforeUpdate: false;
+graph
+
+stream<ToFilter> Filtered = Custom(ToFilter;ChangeFilter) {
+	logic state: {
+		mutable rstring currentFilter = $initialFilter;
+        boolean testFilterBeforeUpdate=$testFilterBeforeUpdate;
+	}
+	onTuple ChangeFilter: {
+        mutable rstring _newfilter = $filterExpression;
+		if (testFilterBeforeUpdate) {
+           mutable int32 err=0;
+           evalPredicate(_newfilter,(ToFilter){},err);
+           if (err == 0) {
+              currentFilter=_newfilter;
+              if (isTraceable(Trace.info)) {
+                 appTrc(Trace.info,"Updating filter to "+_newfilter);
+              }
+          }
+          else {
+             appTrc(Trace.error,"Error "+(rstring)err+" on new filter "+_newfilter+"; not updating");
+             }
+        }
+        else {
+           if (isTraceable(Trace.info)) {
+              appTrc(Trace.info,"Updating filter to "+_newfilter);
+           }
+           currentFilter = _newfilter;
+        }
+	}
+	onTuple ToFilter: {
+		mutable int32 error = 0;
+		if (evalPredicate(currentFilter,ToFilter,error)) {
+			submit(ToFilter,Filtered);
+		}
+        if (error != 0) {
+          appTrc(Trace.error,"Error code "+(rstring)error+" evaluating "+currentFilter+" on "+(rstring)ToFilter);
+        }
+	}
+	onPunct ToFilter: {
+		submit(currentPunct(),Filtered);
+	}
+}
+
+}

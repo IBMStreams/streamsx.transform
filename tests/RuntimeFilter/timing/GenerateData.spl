@@ -1,0 +1,48 @@
+/*******************************************************************************
+* Copyright (C) 2015, International Business Machines Corporation
+* All Rights Reserved
+*******************************************************************************/
+type StringListData = uint64 tupleNum, list<rstring> characterList;
+type ThreeClauseString = rstring hero,rstring heroine,rstring villain;
+type IntData = int64 x, int64 y, int64 z;
+
+composite GenerateStringList(output OutStream) {
+    param
+    expression<int32> $iterations: (int32)getSubmissionTimeValue("iterations","100000000");
+    graph
+        stream<StringListData> OutStream = Beacon() {
+            param iterations: $iterations;
+          output OutStream:
+                  tupleNum=IterationCount(),
+                          characterList = ["Emma","Lizzy","Jane","Wentworth","Elinor","Fanny","Anne","Lady Susan","Catherine","Henry"];
+        }
+}
+
+composite GenerateIntData(output Data) {
+    param
+    expression<int32> $iterations:  (int32)getSubmissionTimeValue("iterations","100000000");
+    graph
+        stream<int64 x,int64 y, int64 z> Data = Beacon() {
+            param iterations: $iterations;
+           output Data:
+                       x = (int64)IterationCount()%10l,
+                                 y = (int64)IterationCount()%11l,
+                                         z = (int64)IterationCount()%13l;
+        }
+}
+
+composite GenerateStringData(output Data) {
+    param 
+        expression<list<rstring>> $villains: ["Miss Bingley","Voldemort"];
+        expression<int32> $iterations:  (int32)getSubmissionTimeValue("iterations","100000000");
+    graph
+        stream<ThreeClauseString> Data = Beacon() {
+            param iterations: $iterations;
+           output Data:
+                       hero = "Darcy",
+                                    heroine = "Lizzy",
+                                            villain = $villains[(int32)(IterationCount()%2ul)];
+        }
+}
+
+

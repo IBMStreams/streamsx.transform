@@ -1,0 +1,33 @@
+/*******************************************************************************
+* Copyright (C) 2015, International Business Machines Corporation
+* All Rights Reserved
+*******************************************************************************/
+
+<%
+my $label = $ARGV[0];
+my $filterExpression = $ARGV[1];
+my $escaped  = $filterExpression;
+$escaped =~ s/\"/\\\"/g;
+%>
+
+
+composite StringEqualityDynamic_<%=$label%> {
+graph
+    () as dyn = DynamicFilterTest() {
+        param
+            GenData: GenerateStringData;
+            filter: "<%=$escaped%>";
+            DataType: ThreeClauseString;
+    }
+
+}
+
+composite StringEqualityBasic_<%=$label%> {
+graph
+   () as basic = BasicFilterTest() {
+        param
+            GenData: GenerateStringData;
+            DataType:ThreeClauseString;
+   }
+
+}
