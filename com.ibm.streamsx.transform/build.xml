@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// *******************************************************************************
+// * Copyright (C)2020, International Business Machines Corporation and *
+// * others. All Rights Reserved. *
+// *******************************************************************************
+-->
+<project name="com.ibm.streamsx.transform" basedir="." default="all">
+
+	<property environment="env" />
+	<property name="streams.install" value="${env.STREAMS_INSTALL}" />
+	<property name="spl-mt" value="${streams.install}/bin/spl-make-toolkit" />
+	<property name="spl-sc" value="${streams.install}/bin/sc" />
+
+	<target name="init">
+		<fail unless="env.STREAMS_INSTALL" message="Environment variable STREAMS_INSTALL not set. Please set this to point to the path of Streams install directory." />
+	</target>
+
+	<target name="clean" depends="cpp-clean">
+		<delete dir="output" />
+	</target>
+
+	<target name="all" depends="toolkit" />
+
+	<target name="toolkit">
+		<echo message="Tookit to index: ${basedir}" />
+		<exec executable="${spl-mt}">
+			<arg value="--directory" />
+			<arg value="${basedir}" />
+			<arg value="-m" />
+		</exec>
+	</target>
+
+	<target name="cpp-clean">
+		<exec executable="${spl-mt}" failonerror="true">
+			<arg value="-c" />
+			<arg value="-i" />
+			<arg value="." />
+		</exec>
+	</target>
+
+</project>
+

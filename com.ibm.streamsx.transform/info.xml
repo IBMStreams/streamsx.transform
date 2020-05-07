@@ -5,13 +5,12 @@
 // * others. All Rights Reserved. *
 // *******************************************************************************
 -->
-<toolkitInfoModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.ibm.com/xmlns/prod/streams/spl/toolkitInfo" xsi:schemaLocation="http://www.ibm.com/xmlns/prod/streams/spl/toolkitInfo toolkitInfoModel.xsd">
-  <identity>
-    <name>com.ibm.streamsx.transform</name>
-    <description> This toolkit contains general-purpose operators for manipulating tuples.
-    </description>
-    <version>1.1.0</version>
-    <requiredProductVersion>4.0.1.0</requiredProductVersion>
-  </identity>
-  <dependencies/>
-</toolkitInfoModel>
+<info:toolkitInfoModel xmlns:common="http://www.ibm.com/xmlns/prod/streams/spl/common" xmlns:info="http://www.ibm.com/xmlns/prod/streams/spl/toolkitInfo">
+  <info:identity>
+    <info:name>com.ibm.streamsx.transform</info:name>
+    <info:description>This toolkit contains general-purpose operators for manipulating tuples.</info:description>
+    <info:version>1.2.0</info:version>
+    <info:requiredProductVersion>4.0.0</info:requiredProductVersion>
+  </info:identity>
+ <info:dependencies/>
+</info:toolkitInfoModel>
