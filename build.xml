@@ -41,10 +41,18 @@
     </exec>
     </target>
 
-  <target name="clean"
+  <target name="clean" depends="cleansamples"
         description="clean up" >
   	<ant dir="${toolkit}" target="clean"/>
         <delete dir="${tmp}"/>
+  </target>
+
+  <target name="cleansamples">
+     <exec executable="make" failonerror="true" dir="${basedir}/samples/RuntimeFilter">
+        <arg value="-f" />
+        <arg value="Makefile" />
+        <arg value="clean" />
+     </exec>
   </target>
 
   <target name="toolkit"
