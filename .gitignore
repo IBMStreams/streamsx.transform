@@ -3,3 +3,9 @@
 toolkit.xml
 output
 data
+**/.apt_generated/
+/tmp/
+**/toolkit.xml
+/doc/
+/com.ibm.streamsx.transform/doc/
+**/.DS_Store
