@@ -13,7 +13,7 @@ use com.ibm.streamsx.inet.rest::*;
  * Web example showing RuntimeFilter in action.
  * Point browser to [http://127.0.0.1:8080]
  */
-composite SimpleInject {
+public composite SimpleInject {
 	
 	graph
 
