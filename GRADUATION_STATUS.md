@@ -1,4 +1,4 @@
-# streamsx.XXXXX Graduation Status
+# streamsx.transform Graduation Status
 
 
 ## Overview
@@ -8,20 +8,20 @@ Incubation for projects is covered here: https://github.com/IBMStreams/administr
 
 - [ ] :red_circle: Stable release(s)
   * Status: **TBD**
-- [ ] :red_circle: Project is properly documented
-  * Status: **TBD**
-- [ ] :red_circle: Project has samples and instructions to help users get started easily
-  * Status: **TBD**
-- [ ] :red_circle: Sufficient testing
-  * Status: **TBD**
+- [ ] :large_orange_diamond: Project is properly documented
+  * Status: Readme
+- [ ] :large_orange_diamond: Project has samples and instructions to help users get started easily
+  * Status: Samples available
+- [ ] :large_orange_diamond: Sufficient testing
+  * Status: Test cases available
 - [ ] :red_circle: Instructions on how to get started with development and contributing to project
-  * Status: **TBD**
-- [ ] :red_circle: Website that contains information and documentation of the project
-  * Status: **TBD**
+  * Status: Not available
+- [ ] :large_orange_diamond: Website that contains information and documentation of the project
+  * Status: SPLDoc
 - [ ] :red_circle: Clear release plan
-  * Status: **TBD**
+  * Status: Not available
 - [ ] :red_circle: At least one active committer
-  * Status: **TBD**
+  * Status: No active committer
 
 ### Key
 * :white_check_mark: - Complete
