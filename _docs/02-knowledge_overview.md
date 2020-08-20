@@ -2,7 +2,7 @@
 title: "Optimizing Streams Applications"
 permalink: /docs/knowledge/overview/
 excerpt: "Optimizing Streams Applications"
-last_modified_at: 2018-11-20T12:37:48-04:00
+last_modified_at: 2020-08-20T11:37:48-04:00
 redirect_from:
    - /theme-setup/
 sidebar:
