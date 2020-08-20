@@ -1,0 +1,25 @@
+
+public composite Main {
+
+  graph 
+
+    // Let’s generate some data.
+    stream<int64 iter> Data = Beacon() {
+      param
+         period: 0.2;   // new tuple every second
+         iterations: 10;
+      output Data:
+         iter = (int64)IterationCount();
+    }
+
+    stream<I> Incr = com.ibm.streamsx.transform::Modify(Data as I) {
+       output Incr: iter=I.iter+100l;
+    } 
+
+    () as sink = Custom(Incr as I) {
+        logic onTuple I: {
+            println((rstring)I);
+        }
+    }
+
+}
