@@ -7,17 +7,15 @@
   xsi:schemaLocation="http://www.ibm.com/xmlns/prod/streams/spl/operator operatorModel.xsd">
   <cppOperatorModel>
     <context> 
-      <description docHref="doc/${nl}/doc/functor.html">This operator is similar to Functor, but modifies the input tuple instead of creating a new one.  Like Functor, it has an optionally filter.  If your input type and output type are the same, using this operator instead of Functor.  
+      <description>This operator is similar to Functor, but modifies the input tuple instead of creating a new one.  Like Functor, it has an optionally filter.  If your input type and output type are the same, using this operator instead of Functor.  
 
 The Modify operator can be an operator within the reachability graph of a consistent region. It cannot be the start of a consistent region.
 </description>
-      <iconUri size="16">functor_16.gif</iconUri>
-      <iconUri size="32">functor_32.gif</iconUri>
       <providesSingleThreadedContext>Always</providesSingleThreadedContext>
       <codeTemplates>
-        <codeTemplate name="Functor">
-          <description>Basic Functor template</description>
-          <template>stream&lt;${schema}&gt; ${outputStream} = Functor(${inputStream}) {
+        <codeTemplate name="Modify">
+          <description>Basic Modify template</description>
+          <template>stream&lt;${schema}&gt; ${outputStream} = Modify(${inputStream}) {
             param
                 filter : ${filterExpression};
             output
