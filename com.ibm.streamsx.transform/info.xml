@@ -9,7 +9,7 @@
   <info:identity>
     <info:name>com.ibm.streamsx.transform</info:name>
     <info:description>This toolkit contains general-purpose operators for manipulating tuples.</info:description>
-    <info:version>1.2.0</info:version>
+    <info:version>1.2.1</info:version>
     <info:requiredProductVersion>4.0.0</info:requiredProductVersion>
   </info:identity>
  <info:dependencies/>
