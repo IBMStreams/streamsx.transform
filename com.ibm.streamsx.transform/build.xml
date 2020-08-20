@@ -18,6 +18,7 @@
 
 	<target name="clean" depends="cpp-clean">
 		<delete dir="output" />
+		<delete dir="doc" />
 	</target>
 
 	<target name="all" depends="toolkit" />
