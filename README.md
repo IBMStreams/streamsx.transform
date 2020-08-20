@@ -5,7 +5,7 @@ General-purpose operators that perform manipulations on streams without looking 
 
 ## Modify
 
-The Modify operator can be used as a replacement for Functor when the input types and output types are the same.   For large tuples, using Modify may improve performance, and will never hurt performance.  
+The Modify operator can be used as a replacement for Functor when the input types and output types are the same.   For large tuples, using Modify may improve performance, and will never hurt performance.
 
 Functor creates a new output tuple from the input tuple, while Modify modifies the input tuple and place it on the output stream.  When tuples are large and the modification is small, Functor can result is a lot of data copying, which can impact performance.  
 
@@ -20,7 +20,7 @@ Functor    |    22.8s    | 123s          |
 
 
 ## Using the Modify Operator to Reduce Copying
-We've made the `Modify` operator available as part of [streamsx.transform](http://ibmstreams.github.io/streamsx.transform/) on Github. It is used like Functor, but unlike Functor, it modifies its input tuple rather than creating a new one. Because it submits the same tuple it received, it's limited to the case where the input type and output type are the same. Because it doesn't copy tuple attributes, using `Modify` instead of `Functor` can speed up your application, especially when your tuple size is large and the application uses `partitionColocation` statements. The first your first step in optimizing your application is to go [here](https://developer.ibm.com/streamsdev/2014/09/07/optimizing-streams-applications/). Trying to eliminate extra copies should only come after the more basic steps described there. The rest of this post dives into the guts of Streams to explain why this can make a difference, and why we had to create a separate operator rather than modifying `Functor`.
+We've made the `Modify` operator available as part of [streamsx.transform](http://ibmstreams.github.io/streamsx.transform/) on Github. It is used like Functor, but unlike Functor, it modifies its input tuple rather than creating a new one. Because it submits the same tuple it received, it's limited to the case where the input type and output type are the same. Because it doesn't copy tuple attributes, using `Modify` instead of `Functor` can speed up your application, especially when your tuple size is large and the application uses `partitionColocation` statements. The first your first step in optimizing your application is to go [here](https://ibmstreams.github.io/streamsx.transform/docs/knowledge/overview/). Trying to eliminate extra copies should only come after the more basic steps described there. The rest of this post dives into the guts of Streams to explain why this can make a difference, and why we had to create a separate operator rather than modifying `Functor`.
 
 ## Functor vs Filter
 
@@ -124,6 +124,6 @@ In this case, the SPL runtime does NOT need to copy the tuples on the Data strea
 
 ## Final notes
 
-This post can be summed as use `Modify` instead of `Functor` when your input and output types are the same. But the broader message here is to be aware of when the Streams runtime and operators are copying tuples. This post is actually a simplification; the SPL runtime uses more information than just the `tupleMutationAllowed` attribute to decide whether a copy is necessary. See [here](https://www.ibm.com/support/knowledgecenter/nl/SSCRJU_4.0.0/com.ibm.streams.dev.doc/doc/str_portmutability.html) for details.
+This post can be summed as use `Modify` instead of `Functor` when your input and output types are the same. But the broader message here is to be aware of when the Streams runtime and operators are copying tuples. This post is actually a simplification; the SPL runtime uses more information than just the `tupleMutationAllowed` attribute to decide whether a copy is necessary. See [here](https://www.ibm.com/support/knowledgecenter/nl/SSCRJU_4.3.0/com.ibm.streams.dev.doc/doc/str_portmutability.html) for details.
 
 
