@@ -17,7 +17,3 @@ sidebar:
 * [SPLDoc for the streamsx.transform toolkit](https://ibmstreams.github.io/streamsx.transform/doc/spldoc/html/index.html)
 
 
-## [](#header-2)Getting Started with IBM Streams
-
-*   [Streams Getting Started Guide](http://ibmstreams.github.io/streamsx.documentation/docs/spl/quick-start/qs-0/)
-
