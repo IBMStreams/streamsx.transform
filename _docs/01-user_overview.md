@@ -2,7 +2,7 @@
 title: "Toolkit Usage Overview"
 permalink: /docs/user/overview/
 excerpt: "How to use this toolkit."
-last_modified_at: 2018-11-20T12:37:48-04:00
+last_modified_at: 2020-08-20T11:37:48-04:00
 redirect_from:
    - /theme-setup/
 sidebar:
@@ -19,5 +19,5 @@ sidebar:
 
 ## [](#header-2)Getting Started with IBM Streams
 
-*   [Streams Getting Started Guide](http://ibmstreams.github.io/streamsx.documentation/docs/4.3/qse-getting-started/)
+*   [Streams Getting Started Guide](http://ibmstreams.github.io/streamsx.documentation/docs/spl/quick-start/qs-0/)
 
