@@ -3,7 +3,7 @@
 
 .PHONY: all clean 
 
-SPLC_FLAGS = -a -t ../../com.ibm.streamsx.transform --data-directory=data
+SPLC_FLAGS = -a -t ../../com.ibm.streamsx.transform
 SPLC = $(STREAMS_INSTALL)/bin/sc
 
 SPL_CMD_ARGS ?= 
