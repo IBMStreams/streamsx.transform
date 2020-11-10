@@ -1,6 +1,9 @@
 .PHONY: all clean 
 
 SPLC_FLAGS = -a -t ../../../com.ibm.streamsx.transform
+ifdef STREAMS_BUILDSERVICE
+    SPLC_FLAGS = -a -t ../toolkits:$(STREAMS_INSTALL)/toolkits
+endif
 SPLC = $(STREAMS_INSTALL)/bin/sc
 
 SPL_CMD_ARGS ?= 
